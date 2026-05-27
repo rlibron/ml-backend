@@ -1,0 +1,5 @@
+# Create runtime.txt with exact Python version
+echo "python-3.11.12" > runtime.txt
+
+# Verify it was created
+cat runtime.txt
