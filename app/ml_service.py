@@ -37,9 +37,17 @@ class MLService:
     def load_models(self):
         """Load trained model and scaler from disk"""
         try:
-            # Try to load saved models
-            model_path = Path("models/rental_model.pkl")
-            scaler_path = Path("models/scaler.pkl")
+            import os
+            from pathlib import Path
+            
+            # Get the base directory (where app folder is)
+            BASE_DIR = Path(__file__).resolve().parent.parent
+            
+            model_path = BASE_DIR / "models" / "rental_model.pkl"
+            scaler_path = BASE_DIR / "models" / "scaler.pkl"
+            
+            print(f"Looking for model at: {model_path}")
+            print(f"Looking for scaler at: {scaler_path}")
             
             if model_path.exists() and scaler_path.exists():
                 self.model = joblib.load(model_path)
@@ -48,7 +56,8 @@ class MLService:
                 print("✅ Models loaded from disk!")
                 return True
             else:
-                print("⚠️ No saved models found. Training fallback model...")
+                print(f"⚠️ Model not found at {model_path}")
+                print("Training fallback model...")
                 self._train_fallback_model()
                 return True
                 
